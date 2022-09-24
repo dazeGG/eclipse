@@ -2,8 +2,8 @@
   <header class="header">
     <router-link :to="Routes.currencies" class="header__logo">dazeGG</router-link>
     <nav class="header__links">
-      <router-link :to="Routes.currencies" class="header__link">Currencies</router-link>
-      <router-link :to="Routes.converter" class="header__link">Converter</router-link>
+      <router-link :to="Routes.currencies" class="header__link">Валюты</router-link>
+      <router-link :to="Routes.converter" class="header__link">Конвертер</router-link>
     </nav>
   </header>
 </template>

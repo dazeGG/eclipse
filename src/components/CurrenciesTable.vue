@@ -1,11 +1,11 @@
 <template>
   <table>
     <tr>
-      <th>Name</th>
-      <th>CharCode</th>
-      <th>Nominal</th>
-      <th>Previous</th>
-      <th>Value</th>
+      <th>Название</th>
+      <th>Код</th>
+      <th>Номинал</th>
+      <th>Предыдущее</th>
+      <th>Текущее</th>
     </tr>
     <tr v-for="currency in currencies" :key="currency.ID">
       <td>{{ currency.Name }}</td>
@@ -28,7 +28,7 @@ import { onBeforeMount, computed } from 'vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
-const currencies = computed(() => store.getters.getCurrencies)
+const currencies = computed(() => store.getters.getFilteredCurrencies)
 
 onBeforeMount(async () => {
   await store.dispatch('getCurrencies')

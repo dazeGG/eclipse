@@ -30,18 +30,23 @@ const getDeltaClass = (previous: number, current: number): string => {
 
 export default createStore({
   state: {
-    currencies: []
+    currencies: [],
+    filteredCurrencies: []
   },
   getters: {
-    getCurrencies: (state: any): ICurrency[] => state.currencies
+    getCurrencies: (state: any): ICurrency[] => state.currencies,
+    getFilteredCurrencies: (state: any): ICurrency[] => state.filteredCurrencies
   },
   mutations: {
     setCurrencies (state: any, payload: ICurrency[]): void {
       state.currencies = payload
+    },
+    setFilteredCurrencies (state: any, payload: ICurrency[]): void {
+      state.filteredCurrencies = payload
     }
   },
   actions: {
-    async getCurrencies ({ commit }: any): Promise<void> {
+    async getCurrencies ({ state, commit }: any): Promise<void> {
       const res = await api.get('/daily_json.js')
       commit('setCurrencies', Object.keys(res.data.Valute).map((currency: string): ICurrency => {
         const tmpCurrency: ICurrency = { ...res.data.Valute[currency] }
@@ -49,6 +54,15 @@ export default createStore({
         tmpCurrency.Previous = Number(tmpCurrency.Previous.toFixed(2))
         tmpCurrency.deltaClass = getDeltaClass(tmpCurrency.Previous, tmpCurrency.Value)
         return tmpCurrency
+      }))
+      commit('setFilteredCurrencies', state.currencies)
+    },
+    async filterCurrencies ({ state, commit }: any, filterValue: string): Promise<void> {
+      commit('setFilteredCurrencies', state.currencies.filter((currency: ICurrency): boolean => {
+        filterValue = filterValue.toLowerCase()
+        return currency.Name.toLowerCase().includes(filterValue) ||
+          currency.CharCode.toLowerCase().includes(filterValue) ||
+          currency.NumCode.toLowerCase().includes(filterValue)
       }))
     }
   }

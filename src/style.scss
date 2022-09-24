@@ -1,12 +1,31 @@
 @import 'assets/default';
 @import 'assets/colors';
 
+html {
+  background-color: $bg;
+
+  &::-webkit-scrollbar {
+    width: 0.6vw;
+    background-color: transparent;
+    border-radius: 10px;
+
+    &-thumb {
+      background-color: transparentize($grey, 0.5);
+      border-radius: 10px;
+
+      &:hover {
+        background-color: $grey;
+      }
+    }
+  }
+}
+
 #app {
   font-family: 'Montserrat', Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  color: $black;
-  background-color: $bg;
+  color: $text;
+  min-height: 100vh;
 }
 
 .container {
@@ -18,4 +37,19 @@
 a {
   color: $black;
   text-decoration: none;
+}
+
+.input {
+  background: #FAFAFA;
+  border: 1px solid $grey-border;
+  border-radius: 10px;
+  padding: 11px 14px;
+  width: 100%;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 18px;
+
+  &:focus {
+    outline: 1px solid $blue;
+  }
 }
