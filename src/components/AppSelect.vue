@@ -1,5 +1,6 @@
 <template>
-  <select v-model="value" class="input converter__currency" @change="emit('select', value)">
+  <select v-model="value" class="input converter__currency" @change="emit('select', value)"
+          style="text-align: center">
     <option v-for="currency in currencies" :key="currency.ID">
       {{ currency.CharCode }}
     </option>
