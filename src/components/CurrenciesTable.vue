@@ -39,7 +39,7 @@ onBeforeMount(async () => {
 @import '@/assets/colors';
 
 table {
-  border: 1px solid $grey;
+  border: 1px solid $grey-border;
   border-radius: 10px;
 }
 
@@ -49,7 +49,7 @@ td {
 }
 
 td {
-  border-top: 1px solid $grey;
+  border-top: 1px solid $grey-border;
   font-weight: 500;
 
   &.centered {
