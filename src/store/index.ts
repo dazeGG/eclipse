@@ -28,7 +28,11 @@ export default createStore({
   actions: {
     async getCurrencies ({ commit }: any) {
       const res = await api.get('/daily_json.js')
-      commit('setCurrencies', Object.keys(res.data.Valute).map((currency: string): ICurrency => res.data.Valute[currency]))
+      commit('setCurrencies', Object.keys(res.data.Valute).map((currency: string): ICurrency => {
+        res.data.Valute[currency].Value = res.data.Valute[currency].Value.toFixed(2)
+        res.data.Valute[currency].Previous = res.data.Valute[currency].Previous.toFixed(2)
+        return res.data.Valute[currency]
+      }))
     }
   }
 })
