@@ -15,12 +15,16 @@ interface ICurrency {
 }
 
 const getDeltaClass = (previous: number, current: number): string => {
-  if (previous > current) {
-    return 'down'
-  } else if (previous < current) {
-    return 'up'
-  } else {
-    return 'didnt-change'
+  switch (previous > current) {
+    case true:
+      return 'down'
+    case false:
+      switch (previous < current) {
+        case true:
+          return 'up'
+        case false:
+          return 'didnt-change'
+      }
   }
 }
 
@@ -29,15 +33,15 @@ export default createStore({
     currencies: []
   },
   getters: {
-    getCurrencies: state => state.currencies
+    getCurrencies: (state: any): ICurrency[] => state.currencies
   },
   mutations: {
-    setCurrencies (state: any, payload: ICurrency[]) {
+    setCurrencies (state: any, payload: ICurrency[]): void {
       state.currencies = payload
     }
   },
   actions: {
-    async getCurrencies ({ commit }: any) {
+    async getCurrencies ({ commit }: any): Promise<void> {
       const res = await api.get('/daily_json.js')
       commit('setCurrencies', Object.keys(res.data.Valute).map((currency: string): ICurrency => {
         const tmpCurrency: ICurrency = { ...res.data.Valute[currency] }
