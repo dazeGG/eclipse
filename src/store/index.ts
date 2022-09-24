@@ -30,16 +30,22 @@ const getDeltaClass = (previous: number, current: number): string => {
 
 export default createStore({
   state: {
+    currenciesFull: [],
     currencies: [],
     hasCurrencies: false,
-    filteredCurrencies: []
+    filteredCurrencies: [],
+    computedValue: 0
   },
   getters: {
     getCurrencies: (state: any): ICurrency[] => state.currencies,
     hasCurrencies: (state: any): boolean => state.hasCurrencies,
-    getFilteredCurrencies: (state: any): ICurrency[] => state.filteredCurrencies
+    getFilteredCurrencies: (state: any): ICurrency[] => state.filteredCurrencies,
+    getComputedValue: (state: any): ICurrency[] => state.computedValue
   },
   mutations: {
+    setCurrenciesFull (state: any, payload: ICurrency[]): void {
+      state.currenciesFull = payload
+    },
     setCurrencies (state: any, payload: ICurrency[]): void {
       state.currencies = payload
     },
@@ -48,11 +54,18 @@ export default createStore({
     },
     setFilteredCurrencies (state: any, payload: ICurrency[]): void {
       state.filteredCurrencies = payload
+    },
+    setComputedValue (state: any, payload: ICurrency[]): void {
+      state.computedValue = payload
     }
   },
   actions: {
-    async getCurrencies ({ state, commit }: any): Promise<void> {
+    async getCurrencies ({
+      state,
+      commit
+    }: any): Promise<void> {
       const res = await api.get('/daily_json.js')
+      commit('setCurrenciesFull', res.data.Valute)
       commit('setCurrencies', Object.keys(res.data.Valute).map((currency: string): ICurrency => {
         const tmpCurrency: ICurrency = { ...res.data.Valute[currency] }
         tmpCurrency.Value = Number(tmpCurrency.Value.toFixed(2))
@@ -63,13 +76,30 @@ export default createStore({
       commit('setHasCurrencies', true)
       commit('setFilteredCurrencies', state.currencies)
     },
-    async filterCurrencies ({ state, commit }: any, filterValue: string): Promise<void> {
+    async filterCurrencies ({
+      state,
+      commit
+    }: any, filterValue: string): Promise<void> {
       commit('setFilteredCurrencies', state.currencies.filter((currency: ICurrency): boolean => {
         filterValue = filterValue.toLowerCase()
         return currency.Name.toLowerCase().includes(filterValue) ||
           currency.CharCode.toLowerCase().includes(filterValue) ||
           currency.NumCode.toLowerCase().includes(filterValue)
       }))
+    },
+    async convert ({
+      state,
+      commit
+    }: any, {
+      baseValue,
+      baseCurrency,
+      computedCurrency
+    }: { baseValue: number, baseCurrency: string, computedCurrency: string }): Promise<void> {
+      const base = state.currenciesFull[baseCurrency]
+      const computed = state.currenciesFull[computedCurrency]
+      const baseInRUB = base.Value * baseValue / base.Nominal
+      const oneRUBInComputed = computed.Nominal / computed.Value
+      commit('setComputedValue', baseInRUB * oneRUBInComputed)
     }
   }
 })
