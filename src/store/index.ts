@@ -31,15 +31,20 @@ const getDeltaClass = (previous: number, current: number): string => {
 export default createStore({
   state: {
     currencies: [],
+    hasCurrencies: false,
     filteredCurrencies: []
   },
   getters: {
     getCurrencies: (state: any): ICurrency[] => state.currencies,
+    hasCurrencies: (state: any): boolean => state.hasCurrencies,
     getFilteredCurrencies: (state: any): ICurrency[] => state.filteredCurrencies
   },
   mutations: {
     setCurrencies (state: any, payload: ICurrency[]): void {
       state.currencies = payload
+    },
+    setHasCurrencies (state: any, payload: boolean): void {
+      state.hasCurrencies = payload
     },
     setFilteredCurrencies (state: any, payload: ICurrency[]): void {
       state.filteredCurrencies = payload
@@ -55,6 +60,7 @@ export default createStore({
         tmpCurrency.deltaClass = getDeltaClass(tmpCurrency.Previous, tmpCurrency.Value)
         return tmpCurrency
       }))
+      commit('setHasCurrencies', true)
       commit('setFilteredCurrencies', state.currencies)
     },
     async filterCurrencies ({ state, commit }: any, filterValue: string): Promise<void> {
