@@ -3,14 +3,16 @@
     <tr>
       <th>Name</th>
       <th>CharCode</th>
+      <th>Nominal</th>
       <th>Previous</th>
       <th>Value</th>
     </tr>
     <tr v-for="currency in currencies" :key="currency.ID">
       <td>{{ currency.Name }}</td>
       <td class="centered">{{ currency.CharCode }}</td>
+      <td class="centered">{{ currency.Nominal }}</td>
       <td class="centered">{{ currency.Previous }}</td>
-      <td class="value" :class="currency.Previous > currency.Value ? 'down' : 'up'">
+      <td class="value" :class="currency.deltaClass">
         {{ currency.Value }}
         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" fill="none">
           <path fill="#fff"
@@ -61,11 +63,15 @@ td {
     gap: 4px;
     font-weight: 600;
 
-    $up-color: $red;
-    $down-color: $green;
+    $up-color: $green;
+    $down-color: $red;
 
     &.up {
       color: $up-color;
+
+      > svg {
+        transform: rotate(180deg);
+      }
 
       > svg > path {
         fill: $up-color;
@@ -77,6 +83,12 @@ td {
 
       > svg > path {
         fill: $down-color;
+      }
+    }
+
+    &.didnt-change {
+      > svg {
+        display: none;
       }
     }
   }

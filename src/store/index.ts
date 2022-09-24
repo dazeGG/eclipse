@@ -10,7 +10,18 @@ interface ICurrency {
   Nominal: number,
   Name: string,
   Value: number,
-  Previous: number
+  Previous: number,
+  deltaClass?: string
+}
+
+const getDeltaClass = (previous: number, current: number): string => {
+  if (previous > current) {
+    return 'down'
+  } else if (previous < current) {
+    return 'up'
+  } else {
+    return 'didnt-change'
+  }
 }
 
 export default createStore({
@@ -29,9 +40,11 @@ export default createStore({
     async getCurrencies ({ commit }: any) {
       const res = await api.get('/daily_json.js')
       commit('setCurrencies', Object.keys(res.data.Valute).map((currency: string): ICurrency => {
-        res.data.Valute[currency].Value = res.data.Valute[currency].Value.toFixed(2)
-        res.data.Valute[currency].Previous = res.data.Valute[currency].Previous.toFixed(2)
-        return res.data.Valute[currency]
+        const tmpCurrency: ICurrency = { ...res.data.Valute[currency] }
+        tmpCurrency.Value = Number(tmpCurrency.Value.toFixed(2))
+        tmpCurrency.Previous = Number(tmpCurrency.Previous.toFixed(2))
+        tmpCurrency.deltaClass = getDeltaClass(tmpCurrency.Previous, tmpCurrency.Value)
+        return tmpCurrency
       }))
     }
   }
