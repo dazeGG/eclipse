@@ -66,10 +66,17 @@ td {
 
   &.value {
     display: flex;
-    align-items: center;
     justify-content: center;
     gap: 4px;
     font-weight: 600;
+    height: 100%;
+
+    .delta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
 
     $up-color: $green;
     $down-color: $red;

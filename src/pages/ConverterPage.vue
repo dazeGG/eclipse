@@ -128,4 +128,11 @@ const change = async (): Promise<void> => {
     }
   }
 }
+
+@media (max-width: 600px) {
+  .converter__title {
+    align-items: start;
+    flex-direction: column;
+  }
+}
 </style>
