@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, defineProps, defineEmits } from 'vue'
+import { computed, ref, defineProps, defineEmits, watch } from 'vue'
 import { useStore } from 'vuex'
 
 const props = defineProps({
@@ -24,4 +24,13 @@ const store = useStore()
 const currencies = computed(() => store.getters.getCurrencies)
 
 const value = ref(props.selectedValue)
+
+watch(
+  () => props.selectedValue,
+  (newValue, oldValue) => {
+    if (newValue !== oldValue) {
+      value.value = newValue
+    }
+  }
+)
 </script>
