@@ -1,16 +1,8 @@
 <template>
-  <h1>Список валют</h1>
-  {{ currencies }}
+  <h1 style="margin: 20px 0;">Список валют</h1>
+  <CurrenciesTable/>
 </template>
 
 <script setup lang="ts">
-import { onBeforeMount, computed } from 'vue'
-import { useStore } from 'vuex'
-
-const store = useStore()
-const currencies = computed(() => store.getters.getCurrencies)
-
-onBeforeMount(async () => {
-  await store.dispatch('getCurrencies')
-})
+import CurrenciesTable from '@/components/CurrenciesTable.vue'
 </script>
