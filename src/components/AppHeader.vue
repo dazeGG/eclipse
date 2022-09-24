@@ -23,7 +23,7 @@ import Routes from '@/router/Routes'
 
   &__logo {
     font-weight: 500;
-    font-size: 32px;
+    font-size: 28px;
   }
 
   &__links {
