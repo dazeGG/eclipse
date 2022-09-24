@@ -99,7 +99,7 @@ export default createStore({
       const computed = state.currenciesFull[computedCurrency]
       const baseInRUB = base.Value * baseValue / base.Nominal
       const oneRUBInComputed = computed.Nominal / computed.Value
-      commit('setComputedValue', baseInRUB * oneRUBInComputed)
+      commit('setComputedValue', Number((baseInRUB * oneRUBInComputed).toFixed(5)))
     }
   }
 })
