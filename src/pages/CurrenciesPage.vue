@@ -1,5 +1,5 @@
 <template>
-  <h1 style="margin: 20px 0;">Список валют</h1>
+  <h1 style="margin: 25px 0;">Список валют</h1>
   <CurrenciesFilter/>
   <CurrenciesTable/>
 </template>

@@ -5,14 +5,19 @@
       <b>[</b>Работает через RUB<b>]</b>
     </div>
   </div>
+  <AppConverter/>
 </template>
+
+<script setup lang="ts">
+import AppConverter from '@/components/AppConverter.vue'
+</script>
 
 <style scoped lang="scss">
 .title {
   display: flex;
   align-items: center;
   gap: 6px;
-  margin: 20px 0;
+  margin: 25px 0;
 }
 
 .postscript {
